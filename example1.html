@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Map point with lat/long</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/maps/modules/data.js"></script>
+<script src="https://code.highcharts.com/mapdata/countries/th/th-all.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.6/proj4.js"></script>
+
+<div id="highmaps-demo"></div>
+
+<script>
+Highcharts.getJSON('http://localhost:3000/user', function (data) {
+	console.log ( data );
+	// Initiate the chart
+Highcharts.mapChart('highmaps-demo', {
+
+    chart: {
+        map: 'countries/th/th-all'
+    },
+
+    title: {
+        text: 'Highmaps basic lat/lon demo'
+    },
+
+    mapNavigation: {
+        enabled: true
+    },
+
+    tooltip: {
+        headerFormat: '',
+        pointFormat: '<b>{point.name}</b><br>Lat: {point.lat}, Lon: {point.lon}'
+    },
+
+    series: [{
+        // Use the gb-all map with no data as a basemap
+        name: 'Basemap',
+        borderColor: '#A0A0A0',
+        nullColor: 'rgba(200, 200, 200, 0.3)',
+        showInLegend: false
+    }, {
+        name: 'Separators',
+        type: 'mapline',
+        nullColor: '#707070',
+        showInLegend: false,
+        enableMouseTracking: false
+    }, {
+        // Specify points using lat/lon
+        type: 'mappoint',
+        name: 'Cities',
+        color: Highcharts.getOptions().colors[1],
+        data: data 
+    }]
+});
+});
+	</script>
